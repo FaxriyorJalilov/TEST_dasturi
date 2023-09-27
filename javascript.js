@@ -1,7 +1,7 @@
 let sertifikat = prompt(
   "Sizda chet tilini bilish sertifikari bormi?" +
     "\n" +
-    "Javob berish HA yoki YO'Q  "
+    "Javob berish HA yoki YO'Q buyrug'ini kiriting! "
 );
 let IELTS = 0;
 let sertifikat1 = sertifikat.toUpperCase();
