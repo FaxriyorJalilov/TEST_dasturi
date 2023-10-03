@@ -1,109 +1,156 @@
-let sertifikat = prompt(
-  "Sizda chet tilini bilish sertifikari bormi?" +
-    "\n" +
-    "Javob berish HA yoki YO'Q buyrug'ini kiriting! "
-);
-let IELTS = 0;
-let sertifikat1 = sertifikat.toUpperCase();
-if (sertifikat1 == "HA") {
-  IELTS = 1.3;
-} else {
-  IELTS = 1;
-}
-
-let test = {
-  savollar: [
-    {
-      savol: "Quyidagilarning qaysi biri  yuqoriroq yuridik kuchga ega?",
-      variantlar: [
-        "A. Qonun",
-        "B. Vazirlar Mahkamsi qarori",
-        "C. Konstitsiya",
-        "D. Prezident farmoni",
-      ],
-      togriJavob: "C",
-    },
-    {
-      savol: "Pulning qaysi vazifasi narxning shakllanishi bilan bog’liq?",
-      variantlar: [
-        "A. Qiymat o'lchoni",
-        "B. Jamg'arma vositasi",
-        "C. To'lov vositasi",
-        "D. Muomala vositasi",
-      ],
-      togriJavob: "A",
-    },
-  ],
-};
-let togriJavoblar = 0;
-const startTime = new Date();
-for (let i = 0; i < test.savollar.length; ) {
-  const FoydalanuvchiJavobi = prompt(
-    test.savollar[i].savol + "\n" + test.savollar[i].variantlar.join("\n")
+let questions = [
+  {
+    question: "Quyidagilarning qaysi biri  yuqoriroq yuridik kuchga ega?",
+    variants: [
+      "Qonun",
+      "Vazirlar Mahkamsi qarori",
+      "Konstitsiya",
+      "Prezident farmoni",
+    ],
+    correctAnswer: "Konstitsiya",
+  },
+  {
+    question: "Pulning qaysi vazifasi narxning shakllanishi bilan bog’liq?",
+    variants: [
+      "Qiymat o'lchovi",
+      "Jamg'arma vositasi",
+      "To'lov vositasi",
+      "Muomala vositasi",
+    ],
+    correctAnswer: "Qiymat o'lchovi",
+  },
+  {
+    question: "Quyidagilarning qaysi biri  yuqoriroq yuridik kuchga ega?",
+    variants: [
+      "Qonun",
+      "Vazirlar Mahkamsi qarori",
+      "Konstitsiya",
+      "Prezident farmoni",
+    ],
+    correctAnswer: "Konstitsiya",
+  },
+  {
+    question: "Pulning qaysi vazifasi narxning shakllanishi bilan bog’liq?",
+    variants: [
+      "Qiymat o'lchovi",
+      "Jamg'arma vositasi",
+      "To'lov vositasi",
+      "Muomala vositasi",
+    ],
+    correctAnswer: "Qiymat o'lchovi",
+  },
+];
+let IELTS = 1;
+let stopApp = true;
+while (stopApp) {
+  let a = +prompt(
+    "1.Testni boshlash \n 2.Testni tahrirlash \n 3.Savollar ro'yxati\n 4.Chet tilini bilish sertifikatini qo'shish\n 0.Chiqish"
   );
-  alert("Javobni tasdiqlaysizmi?");
 
-  if (
-    FoydalanuvchiJavobi[0] == "A" ||
-    FoydalanuvchiJavobi[0] == "B" ||
-    FoydalanuvchiJavobi[0] == "C" ||
-    FoydalanuvchiJavobi[0] == "D"
-  ) {
-    if (FoydalanuvchiJavobi[0] == test.savollar[i].togriJavob) {
-      togriJavoblar++;
-    }
-    i++;
+  switch (a) {
+    case 1:
+      startTest(questions);
+      break;
+    case 2:
+      let password = prompt("Parolni kiriting: ", "admin");
+      if (password == "admin") editTest(questions);
+      break;
+    case 3:
+      alert("Savollar ro'yxati: \n" + getQuestionsList(questions));
+      break;
+    case 4:
+      let SertifikatRaqami = prompt("Setifikat raqamini kiriting: ", "uzb/32");
 
-    continue;
-  }
-  if (
-    FoydalanuvchiJavobi[0] == "a" ||
-    FoydalanuvchiJavobi[0] == "b" ||
-    FoydalanuvchiJavobi[0] == "c" ||
-    FoydalanuvchiJavobi[0] == "d"
-  ) {
-    if (FoydalanuvchiJavobi[0].toUpperCase() == test.savollar[i].togriJavob) {
-      togriJavoblar++;
-    }
-    i++;
-
-    continue;
-  }
-  if (
-    FoydalanuvchiJavobi[0] != "a" ||
-    FoydalanuvchiJavobi[0] != "b" ||
-    FoydalanuvchiJavobi[0] != "c" ||
-    FoydalanuvchiJavobi[0] != "d"
-  ) {
-    alert("Mavjud bo'lmagan variantni tanladingiz");
-  } else {
+      if (SertifikatRaqami == "uzb/32") {
+        IELTS = 1.3;
+      }
+      break;
+    case 0:
+      stopApp = false;
+      break;
   }
 }
 
-const endTime = new Date();
-const sarflanganVaqt = endTime - startTime;
-alert(
-  "Siz " +
-    togriJavoblar +
-    " ta savolga to‘g‘ri javob berdingiz." +
-    "\n" +
-    "Siz testdan to'plagan ball: " +
-    togriJavoblar * 5 +
-    " BALL" +
-    "\n" +
-    "IELTS uchun berilgan indeks: " +
-    IELTS +
-    "\n" +
-    " Siz to'plagan umumiy ball: " +
-    togriJavoblar * 5 * IELTS +
-    " BALL" +
-    "\n" +
-    "Testga sarflangan vaqtingiz:  " +
-    sarflanganVaqt +
-    " ms"
-);
-// alert(
-//   "siz testga " +
-//     sarflanganVaqt +
-//     " sarfladingiz"
-// );
+function toVariant(arr) {
+  let newArr = arr.map((el, i) => {
+    return String.fromCharCode(65 + i) + ") " + el;
+  });
+
+  return newArr;
+}
+
+function startTest(questions) {
+  const startTime = new Date();
+  let counter = 0;
+  for (let i = 0; i < questions.length; i++) {
+    let userAnswer = prompt(
+      i +
+        1 +
+        ") " +
+        questions[i].question +
+        "\n" +
+        toVariant(questions[i].variants).join("\n")
+    );
+    console.log(questions[i].variants);
+    let n = userAnswer.toLowerCase().charCodeAt(0) - 97;
+
+    if (questions[i].variants[n] === questions[i].correctAnswer) {
+      counter++;
+    }
+    if (n >= 4) {
+      alert("Mavjud bo'lmagan variantni tanladingiz!");
+      i--;
+    }
+  }
+  const endTime = new Date();
+  const sarflanganVaqt = endTime - startTime;
+  alert(
+    "Siz: " +
+      counter +
+      " ta savolga to`g`ri javob berdingiz" +
+      "\n" +
+      "Siz testdan olgan ballingiz: " +
+      counter * 2.5 +
+      " ball" +
+      "\n" +
+      "Sizda mavjud imtiyoz indeksi: " +
+      IELTS +
+      "\n" +
+      "Sizning ummumiy to'plagan ballingiz: " +
+      counter * 2.5 * IELTS +
+      " ball" +
+      "\n" +
+      "Testni ishlash uchun ketgan vaqt: " +
+      sarflanganVaqt +
+      " ms"
+  );
+}
+
+function getQuestionsList(questions) {
+  let questionsLest = "";
+  for (let i = 0; i < questions.length; i++) {
+    questionsLest += i + 1 + questions[i].question + "\n";
+  }
+  return questionsLest;
+}
+
+function editTest(questions) {
+  let questionsLest =
+    "Taxrirlamoqchi bo'lgan savolni raqamini kiriting:\n" +
+    getQuestionsList(questions);
+
+  let editIndext = +prompt(questionsLest);
+  questions[editIndext - 1] = {
+    question: prompt("Savolni kiriting: ", questions[editIndext - 1].question),
+    variants: [
+      prompt("a) variantni kiriting: ", questions[editIndext - 1].variants[0]),
+      prompt("b) variantni kiriting: ", questions[editIndext - 1].variants[1]),
+      prompt("c) variantni kiriting: ", questions[editIndext - 1].variants[2]),
+      prompt("d) variantni kiriting: ", questions[editIndext - 1].variants[3]),
+    ],
+    correctAnswer: prompt(
+      "To'g'ri javobni kiriting",
+      questions[editIndext - 1].correctAnswer
+    ),
+  };
+}
