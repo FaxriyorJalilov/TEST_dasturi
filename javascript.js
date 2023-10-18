@@ -20,31 +20,51 @@ let questions = [
     correctAnswer: "Qiymat o'lchovi",
   },
   {
-    question: "Quyidagilarning qaysi biri  yuqoriroq yuridik kuchga ega?",
-    variants: [
-      "Qonun",
-      "Vazirlar Mahkamsi qarori",
-      "Konstitsiya",
-      "Prezident farmoni",
-    ],
-    correctAnswer: "Konstitsiya",
+    question: "Axborot komunikatsiya texnologiyasi berilgan qatorni belgilang?",
+    variants: ["Kompyuter", "Suv", "Havo", "Yulduz"],
+    correctAnswer: "kompyuter",
   },
   {
-    question: "Pulning qaysi vazifasi narxning shakllanishi bilan bog’liq?",
-    variants: [
-      "Qiymat o'lchovi",
-      "Jamg'arma vositasi",
-      "To'lov vositasi",
-      "Muomala vositasi",
-    ],
-    correctAnswer: "Qiymat o'lchovi",
+    question: "Eng katta juft soni belgilang?",
+    variants: ["10", "44", "999", "77"],
+    correctAnswer: "44",
+  },
+  {
+    question: "Juft sonlar qatorini toping?",
+    variants: ["17", "18", "21", "55"],
+    correctAnswer: "18",
+  },
+  {
+    question: "Toq soni toping?",
+    variants: ["16", "15", "18", "20"],
+    correctAnswer: "15",
+  },
+  {
+    question: "Keng katta soni belgilang?",
+    variants: ["12", "21", "15", "51"],
+    correctAnswer: "51",
+  },
+  {
+    question: "Qushlarni toping?",
+    variants: ["Yaguar", "Laylak", "Toshbaqa", "Baliq"],
+    correctAnswer: "Laylak",
+  },
+  {
+    question: "Sonlarni toping?",
+    variants: ["Yaguar", "55", "Toshbaqa", "Baliq"],
+    correctAnswer: "55",
+  },
+  {
+    question: "Quyidagilardan qaysi biri insoniyat tomonidan yaratilgan ?",
+    variants: ["Yaguar", "Robit", "Toshbaqa", "Baliq"],
+    correctAnswer: "Robit",
   },
 ];
 let IELTS = 1;
 let stopApp = true;
 while (stopApp) {
   let a = +prompt(
-    "1.Testni boshlash \n 2.Testni tahrirlash \n 3.Savollar ro'yxati\n 4.Chet tilini bilish sertifikatini qo'shish\n 0.Chiqish"
+    "1.Testni boshlash \n 2.Testni tahrirlash \n 3.Savollar ro'yxati\n 4.Chet tilini bilish sertifikatini qo'shish\n 5.O'chirish\n 0.Chiqish"
   );
 
   switch (a) {
@@ -65,12 +85,24 @@ while (stopApp) {
         IELTS = 1.3;
       }
       break;
+    case 5:
+      deleteTest(questions);
+      break;
     case 0:
       stopApp = false;
       break;
+    default:
+      alert("Menyudagi sonlardan birini tanlang!");
   }
 }
-
+// function randonTest(questions) {
+// for (let i = 0; i < questions.length; i++) {
+//   let randomIndex = Math.floor(Math.random() * questions.length);
+//   questions[randomIndex];
+//   console.log(questions[randomIndex]);
+// }
+// return randomIndex;
+// }
 function toVariant(arr) {
   let newArr = arr.map((el, i) => {
     return String.fromCharCode(65 + i) + ") " + el;
@@ -79,22 +111,43 @@ function toVariant(arr) {
   return newArr;
 }
 
-function startTest(questions) {
+function randomisedQuestions(data) {
+  let randomisedQuestionsSet = new Set();
+  let randomised = [];
+  let sttt = 0;
+  here: while (true) {
+    let index = Math.floor(Math.random() * data.length);
+    console.log(index);
+    randomisedQuestionsSet.add(data[index]);
+    sttt++;
+    if (randomisedQuestionsSet.size == data.length) {
+      randomised = Array.from(randomisedQuestionsSet);
+      break here;
+    }
+  }
+  return randomised;
+}
+
+randomisedQuestions(questions);
+
+function startTest() {
+  let randomised = randomisedQuestions(questions);
   const startTime = new Date();
   let counter = 0;
-  for (let i = 0; i < questions.length; i++) {
+
+  for (let i = 0; i < randomised.length; i++) {
     let userAnswer = prompt(
       i +
         1 +
         ") " +
-        questions[i].question +
+        randomised[i].question +
         "\n" +
-        toVariant(questions[i].variants).join("\n")
+        toVariant(randomised[i].variants).join("\n")
     );
-    console.log(questions[i].variants);
+
     let n = userAnswer.toLowerCase().charCodeAt(0) - 97;
 
-    if (questions[i].variants[n] === questions[i].correctAnswer) {
+    if (randomised[i].variants[n] === randomised[i].correctAnswer) {
       counter++;
     }
     if (n >= 4) {
@@ -102,6 +155,7 @@ function startTest(questions) {
       i--;
     }
   }
+
   const endTime = new Date();
   const sarflanganVaqt = endTime - startTime;
   alert(
@@ -134,6 +188,7 @@ function getQuestionsList(questions) {
   return questionsLest;
 }
 
+// Savolni taxrirlash funksiyasi
 function editTest(questions) {
   let questionsLest =
     "Taxrirlamoqchi bo'lgan savolni raqamini kiriting:\n" +
@@ -154,3 +209,34 @@ function editTest(questions) {
     ),
   };
 }
+function deleteTest(data) {
+  let questionNumber = +prompt(
+    "O'chirmoqchi bo'lgan savolni raqamini kiriting:\n" + getQuestionsList(data)
+  );
+
+  let newArr = data.filter((el, index) => index + 1 != questionNumber);
+  questions = newArr;
+}
+
+
+// let set = new Set([1, 1, 2, 3, 45, 45]);
+
+// console.log(set);
+// // sovillar uzunligicha aylanishingiz kerak
+
+// set.add(45);
+// set.add(45);
+// set.add(45);
+// set.add(45);
+// set.add(45);
+// set.add(45);
+// set.add(45);
+// set.add(45);
+
+// console.log(set);
+
+// let newArr = Array.from(set);
+// console.log(newArr);
+
+// while bilan aylanaverasiz
+// yangi array questions uzunligiga teng bo'lmaguncha
