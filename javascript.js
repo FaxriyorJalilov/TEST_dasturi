@@ -64,7 +64,7 @@ let IELTS = 1;
 let stopApp = true;
 while (stopApp) {
   let a = +prompt(
-    "1.Testni boshlash \n 2.Testni tahrirlash \n 3.Savollar ro'yxati\n 4.Chet tilini bilish sertifikatini qo'shish\n 5.O'chirish\n 0.Chiqish"
+    "1.Testni boshlash \n 2.Testni tahrirlash \n 3.Savollar ro'yxati\n 4.Chet tilini bilish sertifikatini qo'shish\n 5.O'chirish\n 6.Savol qo'shish\n 0.Chiqish"
   );
 
   switch (a) {
@@ -76,7 +76,21 @@ while (stopApp) {
       if (password == "admin") editTest(questions);
       break;
     case 3:
-      alert("Savollar ro'yxati: \n" + getQuestionsList(questions));
+      let n = prompt(getQuestionsList(questions));
+      if (n) {
+        alert(
+          "Savol " +
+            questions[n - 1].question +
+            "\n" +
+            "Javoblar " +
+            questions[n - 1].variants +
+            "\n" +
+            "To'g'ri javobi " +
+            questions[n - 1].correctAnswer
+        );
+      }
+      // alert("Savollar ro'yxati: \n" + getQuestionsList(questions));
+
       break;
     case 4:
       let SertifikatRaqami = prompt("Setifikat raqamini kiriting: ", "uzb/32");
@@ -87,6 +101,9 @@ while (stopApp) {
       break;
     case 5:
       deleteTest(questions);
+      break;
+    case 6:
+      addTest(questions);
       break;
     case 0:
       stopApp = false;
@@ -128,7 +145,7 @@ function randomisedQuestions(data) {
   return randomised;
 }
 
-randomisedQuestions(questions);
+let randomised = randomisedQuestions(questions);
 
 function startTest() {
   let randomised = randomisedQuestions(questions);
@@ -136,18 +153,20 @@ function startTest() {
   let counter = 0;
 
   for (let i = 0; i < randomised.length; i++) {
+    // console.log(Math.floor(Math.random() * randomised[i].variants.length));
+    let randomVariants = randomisedQuestions(randomised[i].variants);
+    console.log(randomVariants);
     let userAnswer = prompt(
       i +
         1 +
         ") " +
         randomised[i].question +
         "\n" +
-        toVariant(randomised[i].variants).join("\n")
+        toVariant(randomVariants).join("\n")
     );
-
     let n = userAnswer.toLowerCase().charCodeAt(0) - 97;
 
-    if (randomised[i].variants[n] === randomised[i].correctAnswer) {
+    if (randomVariants[n] === randomised[i].correctAnswer) {
       counter++;
     }
     if (n >= 4) {
@@ -210,33 +229,35 @@ function editTest(questions) {
   };
 }
 function deleteTest(data) {
-  let questionNumber = +prompt(
+  // let questionNumber = +prompt(
+  //   "O'chirmoqchi bo'lgan savolni raqamini kiriting:\n" + getQuestionsList(data)
+  // );
+
+  // let newArr = data.filter((el, index) => index + 1 != questionNumber);
+  // questions = newArr;
+  let n = +prompt(
     "O'chirmoqchi bo'lgan savolni raqamini kiriting:\n" + getQuestionsList(data)
   );
-
-  let newArr = data.filter((el, index) => index + 1 != questionNumber);
-  questions = newArr;
+  questions.splice(n - 1, 1);
+  alert(n + "-Savol o'chirildi");
 }
+function addTest(data) {
+  // let questionsLest =
+  //   "Taxrirlamoqchi bo'lgan savolni raqamini kiriting:\n" +
+  //   getQuestionsList(questions);
 
-
-// let set = new Set([1, 1, 2, 3, 45, 45]);
-
-// console.log(set);
-// // sovillar uzunligicha aylanishingiz kerak
-
-// set.add(45);
-// set.add(45);
-// set.add(45);
-// set.add(45);
-// set.add(45);
-// set.add(45);
-// set.add(45);
-// set.add(45);
-
-// console.log(set);
-
-// let newArr = Array.from(set);
-// console.log(newArr);
-
-// while bilan aylanaverasiz
-// yangi array questions uzunligiga teng bo'lmaguncha
+  const question = prompt("Savol kiriting");
+  const a = prompt("a) variantni kiriting: ");
+  const b = prompt("b) variantni kiriting: ");
+  const c = prompt("c) variantni kiriting: ");
+  const d = prompt("d) variantni kiriting: ");
+  const correctAnswer = prompt("To'g'ri javobni kiriting");
+  const quizItem = {
+    number: questions.length + 1,
+    question: question,
+    variants: [a, b, c, d],
+    correctAnswer: correctAnswer,
+  };
+  questions.push(quizItem);
+  alert("Savol qo'shildi!");
+}
