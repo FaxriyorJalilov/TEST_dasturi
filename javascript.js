@@ -22,7 +22,7 @@ let questions = [
   {
     question: "Axborot komunikatsiya texnologiyasi berilgan qatorni belgilang?",
     variants: ["Kompyuter", "Suv", "Havo", "Yulduz"],
-    correctAnswer: "kompyuter",
+    correctAnswer: "Kompyuter",
   },
   {
     question: "Eng katta juft soni belgilang?",
@@ -40,7 +40,7 @@ let questions = [
     correctAnswer: "15",
   },
   {
-    question: "Keng katta soni belgilang?",
+    question: "Eng katta soni belgilang?",
     variants: ["12", "21", "15", "51"],
     correctAnswer: "51",
   },
